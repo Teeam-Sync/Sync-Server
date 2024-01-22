@@ -1,0 +1,70 @@
+---
+name: "🐛 Bug Report"
+description: Report a bug
+title: "🐛 [BUG]: "
+labels: ["bug"]
+assignees: []
+projects: ["Team-Sync"]
+
+body:
+  - type: input
+    attributes:
+      label: "🐛 Bug가 발생한 API 요청"
+      description: |
+        What API requests found bugs?<br>
+      placeholder: |
+        eg. file/issue/:id
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Bug 재연 방법
+      description: |
+        What were you doing on the website or app when the bug happened? Detailed information helps maintainers reproduce and fix bugs.<br>
+        Issues filed without repro steps will be closed.
+      placeholder: |
+        Example bug report:
+        1. Log-In with /auth/github-login?code=<auth-code>
+        2. Enter the corresponding Request Body.
+          ```json
+            {
+              "owner": "AgainIoT",
+              "repoName": "Open-Set-Go_server"
+            }
+          ```
+        3. You'll get this response.
+          ```json
+            {
+              "owner": "AgainIoT",
+              "name": "Open-Set-Go_server",
+              "fullName": "AgainIoT/Open-Set-Go_server",
+              "repoURL": "https://github.com/AgainIoT/Open-Set-Go_server",
+              "description": "'Project Starting Toolkit' for OpenSource SW developers who can easily, quickly and conveniently start an Open Source project.",
+              "language": "TypeScript",
+              "star": 8,
+              "fork": 3
+            }
+          ```
+    validations:
+      required: true
+  
+  - type: textarea
+    id: checklist
+    attributes:
+      label: "✅ 체크리스트"
+      description: 문제를 해결할 수 있는 방법에 대해서 체크리스트를 제공해주세요!
+      value: |
+        - [ ] 
+    validations:
+      required: false
+
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: "Screenshots"
+      description: Add screenshots to help explain your problem.
+      value: |
+        ![DESCRIPTION](LINK.png)
+    validations:
+      required: false
