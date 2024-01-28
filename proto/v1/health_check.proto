@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package proto.v1;
+option go_package = "github.com/Teeam-Sync/Sync-Server/api/proto/v1";
+
+service HealthCheckService {
+  rpc Check(CheckRequest) returns (CheckResponse) {}
+}
+
+message CheckRequest {
+  string hi = 1;
+}
+
+message CheckResponse {
+  string bye = 1;
+}
