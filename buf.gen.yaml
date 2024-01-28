@@ -3,6 +3,7 @@ plugins:
   - plugin: go
     out: api
     opt: paths=source_relative
-  - plugin: connect-go
+  - name: go-grpc
     out: api
-    opt: paths=source_relative
+    opt:
+      - paths=source_relative
