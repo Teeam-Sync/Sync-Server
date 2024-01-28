@@ -26,7 +26,8 @@ func Initialize() error {
 
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%s", port))
 	if err != nil {
-		logger.Debug("failed to listen: %v", err)
+		logger.Error("failed to listen: %v", err)
+		return err
 	}
 
 	s := grpc.NewServer()
