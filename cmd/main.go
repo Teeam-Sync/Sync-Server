@@ -4,7 +4,7 @@ import (
 	"log"
 
 	grpc_handler "github.com/Teeam-Sync/Sync-Server/api/handler"
-	"github.com/Teeam-Sync/Sync-Server/internal/database"
+	database "github.com/Teeam-Sync/Sync-Server/internal/database/mongodb"
 	"github.com/joho/godotenv"
 )
 
