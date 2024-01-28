@@ -2,9 +2,9 @@ package database
 
 import (
 	"context"
-	"log"
 	"os"
 
+	"github.com/Teeam-Sync/Sync-Server/internal/logger"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -30,7 +30,7 @@ func Initialize() {
 	if ClientErr != nil { // client Connection에서 에러가 발생하면
 		panic(ClientErr)
 	}
-	log.Println("MongoDB connected successfully!")
+	logger.Info("MongoDB connected successfully!")
 
 	defineCollection()
 }
