@@ -4,6 +4,7 @@ import (
 	"context"
 	"os"
 
+	usersColl "github.com/Teeam-Sync/Sync-Server/internal/database/mongodb/users"
 	"github.com/Teeam-Sync/Sync-Server/internal/logger"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -15,8 +16,6 @@ var (
 
 	Client    *mongo.Client
 	ClientErr error
-
-	UsersColl = &mongo.Collection{}
 )
 
 func Initialize() {
@@ -33,8 +32,11 @@ func Initialize() {
 	logger.Info("MongoDB connected successfully!")
 
 	defineCollection()
+	ensureIndexes(context.TODO(), Client.Database(mongodbDatabase))
 }
 
 func defineCollection() {
-	UsersColl = Client.Database(mongodbDatabase).Collection("users")
+	database := Client.Database(mongodbDatabase)
+
+	usersColl.Define(*database)
 }
