@@ -23,7 +23,6 @@ func (*AuthServer) SignUp(ctx context.Context, req *v1.SignUpRequest) (*v1.SignU
 
 	hashedPassword := utils.MakeHash(req.Password)
 
-	// TODO: LoginColl에 Insert & UserColl에 Insert (transaction을 사용해서)
 	err := mongo_utils.SignUp(loginsColl.LoginsSchema{
 		Email:     req.Email,
 		Password:  hashedPassword,
