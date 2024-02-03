@@ -13,13 +13,12 @@ var collectionInfos = []mongo_common.CollectionInfo{
 	usersColl.CollectionInfo,
 }
 
-func ensureIndexes(ctx context.Context, db *mongo.Database) error {
+func ensureIndexes(ctx context.Context, db *mongo.Database) {
 	for _, info := range collectionInfos {
 		_, err := db.Collection(info.Name).Indexes().CreateMany(ctx, info.Indexes)
 		if err != nil {
 			logger.Error(err)
-			return err
+			panic(err)
 		}
 	}
-	return nil
 }

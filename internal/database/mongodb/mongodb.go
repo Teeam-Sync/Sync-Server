@@ -27,6 +27,7 @@ func Initialize() {
 
 	Client, ClientErr = mongo.Connect(context.TODO(), opts)
 	if ClientErr != nil { // client Connection에서 에러가 발생하면
+		logger.Error(ClientErr)
 		panic(ClientErr)
 	}
 	logger.Info("MongoDB connected successfully!")
