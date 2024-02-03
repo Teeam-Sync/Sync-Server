@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package proto.v1;
+option go_package = "github.com/Teeam-Sync/Sync-Server/api/proto/v1";
+
+message Status {
+  bool success = 1;
+  StatusCode code = 2;
+}
+
+enum StatusCode {
+  // common 00000번대 에러
+  NO_ERROR = 0;
+  UNEXPECTED_ERROR = 1;
+  REQUIREDFIELD_MISSING = 2;
+
+  // auth 10000번대 에러
+  USER_ALREADY_REGISTERED = 10000;
+}

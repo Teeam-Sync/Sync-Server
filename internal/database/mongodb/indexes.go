@@ -4,6 +4,7 @@ import (
 	"context"
 
 	mongo_common "github.com/Teeam-Sync/Sync-Server/internal/database/mongodb/common"
+	loginsColl "github.com/Teeam-Sync/Sync-Server/internal/database/mongodb/logins"
 	usersColl "github.com/Teeam-Sync/Sync-Server/internal/database/mongodb/users"
 	"github.com/Teeam-Sync/Sync-Server/internal/logger"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -11,6 +12,7 @@ import (
 
 var collectionInfos = []mongo_common.CollectionInfo{
 	usersColl.CollectionInfo,
+	loginsColl.CollectionInfo,
 }
 
 func ensureIndexes(ctx context.Context, db *mongo.Database) {

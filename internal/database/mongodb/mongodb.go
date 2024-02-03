@@ -4,6 +4,7 @@ import (
 	"context"
 	"os"
 
+	loginsColl "github.com/Teeam-Sync/Sync-Server/internal/database/mongodb/logins"
 	usersColl "github.com/Teeam-Sync/Sync-Server/internal/database/mongodb/users"
 	"github.com/Teeam-Sync/Sync-Server/internal/logger"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -40,4 +41,5 @@ func defineCollection() {
 	database := Client.Database(mongodbDatabase)
 
 	usersColl.Define(*database)
+	loginsColl.Define(*database)
 }

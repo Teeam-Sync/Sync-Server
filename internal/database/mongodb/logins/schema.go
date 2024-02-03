@@ -1,4 +1,4 @@
-package usersColl
+package loginsColl
 
 import (
 	mongo_common "github.com/Teeam-Sync/Sync-Server/internal/database/mongodb/common"
@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	CollectionName = "users"
+	CollectionName = "logins"
 )
 
 var (
@@ -23,16 +23,13 @@ var CollectionInfo mongo_common.CollectionInfo = mongo_common.CollectionInfo{
 			Keys:    bson.D{{Key: "email", Value: 1}},
 			Options: options.Index().SetUnique(true),
 		},
-		{
-			Keys: bson.D{{Key: "name", Value: 1}},
-		},
 	},
 }
 
-type UsersSchema struct {
+type LoginsSchema struct {
 	Uid       primitive.ObjectID `bson:"_id"`
-	Name      string             `bson:"name"`
 	Email     string             `bson:"email"`
+	Password  string             `bson:"password"`
 	CreatedAt primitive.DateTime `bson:"createdAt"`
 }
 
