@@ -55,3 +55,44 @@ func (*AuthServer) SignUp(ctx context.Context, req *v1.SignUpRequest) (*v1.SignU
 		},
 	}, nil
 }
+
+func (*AuthServer) SignIn(ctx context.Context, req *v1.SignInRequest) (*v1.SignInResponse, error) {
+	logger.Debug(req)
+
+	hashedPassword := utils.MakeHash(req.Password)
+
+	err := mongo_utils.SignIn(loginsColl.LoginsSchema{
+		Email:     req.Email,
+		Password:  hashedPassword,
+		CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+	})
+	if err == converter.ErrUserNotRegistered { // 회원가입되지 않은 유저인 경우
+		return &v1.SignInResponse{
+			Status: &v1.Status{
+				Success: false,
+				Code:    v1.StatusCode_USER_NOT_REGISTERED,
+			},
+		}, nil
+	} else if err == converter.ErrUserPasswordIncorrect{
+		return &v1.SignInResponse{
+			Status: &v1.Status{
+				Success: false,
+				Code: v1.StatusCode_USER_PASSWORD_INCORRECT,
+			},
+		}, nil
+	} else if err != nil {
+		return &v1.SignInResponse{
+			Status: &v1.Status{
+				Success: false,
+				Code:    v1.StatusCode_UNEXPECTED_ERROR,
+			},
+		}, nil
+	}
+	
+	return &v1.SignInResponse{
+		Status: &v1.Status{
+			Success: true,
+			Code:    v1.StatusCode_NO_ERROR,
+		},
+	}, nil
+}

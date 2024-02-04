@@ -15,4 +15,5 @@ var (
 	// [users]
 	ErrUserNotRegistered     = errors.New("[users] User Not Registered Before")
 	ErrUserAlreadyRegistered = errors.New("[users] User Already Registered Before")
+	ErrUserPasswordIncorrect = errors.New("[users] User Password Incorrect")
 )
