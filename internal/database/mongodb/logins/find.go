@@ -5,13 +5,13 @@ import (
 
 	"github.com/Teeam-Sync/Sync-Server/api/converter"
 	"github.com/Teeam-Sync/Sync-Server/internal/logger"
-	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
 // [logins] Email을 통해서 Login 유저를 가져오는 함수 // ErrUserNotRegistered, ErrMongoFindError
 func FindLoginUserByEmail(email string) (loginUser LoginsSchema, err error) {
-	filter := bson.M{"email": email}
+	filter := LoginsSchema{Email: email}
 
 	err = Collection.FindOne(context.TODO(), filter).Decode(&loginUser)
 	if err == mongo.ErrNoDocuments { // login Collection에서 User가 등록되어있지 않는 경우
@@ -25,7 +25,12 @@ func FindLoginUserByEmail(email string) (loginUser LoginsSchema, err error) {
 
 // [logins] Uid를 통해서 Login 유저를 가져오는 함수 // ErrUserNotRegistered, ErrMongoFindError
 func FindLoginUserByUid(uid string) (loginUser LoginsSchema, err error) {
-	filter := bson.M{"_id": uid}
+	parsedUid, err := primitive.ObjectIDFromHex(uid)
+	if err != nil {
+		return loginUser, converter.ErrMongoInvalidObjectIDError
+	}
+
+	filter := LoginsSchema{Uid: parsedUid}
 
 	err = Collection.FindOne(context.TODO(), filter).Decode(&loginUser)
 	if err == mongo.ErrNoDocuments { // login Collection에서 User가 등록되어있지 않는 경우

@@ -7,10 +7,11 @@ var (
 	ErrUnexpectedError = errors.New("[common] Unexpected Error Occured")
 
 	// [mongo]
-	ErrMongoInsertError = errors.New("[mongo] MongoDB Insert Function Occured Error")
-	ErrMongoFindError   = errors.New("[mongo] MongoDB Find Function Occured Error")
-	ErrMongoUpdateError = errors.New("[mongo] MongoDB Update Function Occured Error")
-	ErrMongoDeleteError = errors.New("[mongo] MongoDB Delete Function Occured Error")
+	ErrMongoInsertError          = errors.New("[mongo] MongoDB Insert Function Occured Error")
+	ErrMongoFindError            = errors.New("[mongo] MongoDB Find Function Occured Error")
+	ErrMongoUpdateError          = errors.New("[mongo] MongoDB Update Function Occured Error")
+	ErrMongoDeleteError          = errors.New("[mongo] MongoDB Delete Function Occured Error")
+	ErrMongoInvalidObjectIDError = errors.New("[mongo] MongoDB ObjectID is invalid")
 
 	// [users]
 	ErrUserNotRegistered     = errors.New("[users] User Not Registered Before")

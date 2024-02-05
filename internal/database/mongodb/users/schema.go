@@ -30,10 +30,10 @@ var CollectionInfo mongo_common.CollectionInfo = mongo_common.CollectionInfo{
 }
 
 type UsersSchema struct {
-	Uid       primitive.ObjectID `bson:"_id"`
-	Name      string             `bson:"name"`
-	Email     string             `bson:"email"`
-	CreatedAt primitive.DateTime `bson:"createdAt"`
+	Uid       primitive.ObjectID `bson:"_id,omitempty"`
+	Name      string             `bson:"name,omitempty"`
+	Email     string             `bson:"email,omitempty"`
+	CreatedAt primitive.DateTime `bson:"createdAt,omitempty"`
 }
 
 func Define(database mongo.Database) {

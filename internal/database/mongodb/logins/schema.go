@@ -27,10 +27,10 @@ var CollectionInfo mongo_common.CollectionInfo = mongo_common.CollectionInfo{
 }
 
 type LoginsSchema struct {
-	Uid       primitive.ObjectID `bson:"_id"`
-	Email     string             `bson:"email"`
-	Password  string             `bson:"password"`
-	CreatedAt primitive.DateTime `bson:"createdAt"`
+	Uid       primitive.ObjectID `bson:"_id,omitempty"`
+	Email     string             `bson:"email,omitempty"`
+	Password  string             `bson:"password,omitempty"`
+	CreatedAt primitive.DateTime `bson:"createdAt,omitempty"`
 }
 
 func Define(database mongo.Database) {

@@ -39,7 +39,7 @@ func (*AuthServer) SignUp(ctx context.Context, req *v1.SignUpRequest) (*v1.SignU
 				Code:    v1.StatusCode_USER_ALREADY_REGISTERED,
 			},
 		}, nil
-	} else if err != nil {
+	} else if err != nil { // unexpected error
 		return &v1.SignUpResponse{
 			Status: &v1.Status{
 				Success: false,
@@ -73,14 +73,14 @@ func (*AuthServer) SignIn(ctx context.Context, req *v1.SignInRequest) (*v1.SignI
 				Code:    v1.StatusCode_USER_NOT_REGISTERED,
 			},
 		}, nil
-	} else if err == converter.ErrUserPasswordIncorrect {
+	} else if err == converter.ErrUserPasswordIncorrect { // 비밀번호가 올바르지 않은 경우
 		return &v1.SignInResponse{
 			Status: &v1.Status{
 				Success: false,
 				Code:    v1.StatusCode_USER_PASSWORD_INCORRECT,
 			},
 		}, nil
-	} else if err != nil {
+	} else if err != nil { // unexpected error
 		return &v1.SignInResponse{
 			Status: &v1.Status{
 				Success: false,
