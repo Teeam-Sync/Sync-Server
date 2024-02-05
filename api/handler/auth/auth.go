@@ -73,11 +73,11 @@ func (*AuthServer) SignIn(ctx context.Context, req *v1.SignInRequest) (*v1.SignI
 				Code:    v1.StatusCode_USER_NOT_REGISTERED,
 			},
 		}, nil
-	} else if err == converter.ErrUserPasswordIncorrect{
+	} else if err == converter.ErrUserPasswordIncorrect {
 		return &v1.SignInResponse{
 			Status: &v1.Status{
 				Success: false,
-				Code: v1.StatusCode_USER_PASSWORD_INCORRECT,
+				Code:    v1.StatusCode_USER_PASSWORD_INCORRECT,
 			},
 		}, nil
 	} else if err != nil {
@@ -88,7 +88,7 @@ func (*AuthServer) SignIn(ctx context.Context, req *v1.SignInRequest) (*v1.SignI
 			},
 		}, nil
 	}
-	
+
 	return &v1.SignInResponse{
 		Status: &v1.Status{
 			Success: true,
