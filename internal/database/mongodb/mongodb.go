@@ -4,6 +4,8 @@ import (
 	"context"
 	"os"
 
+	loginsColl "github.com/Teeam-Sync/Sync-Server/internal/database/mongodb/logins"
+	usersColl "github.com/Teeam-Sync/Sync-Server/internal/database/mongodb/users"
 	"github.com/Teeam-Sync/Sync-Server/internal/logger"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -15,8 +17,6 @@ var (
 
 	Client    *mongo.Client
 	ClientErr error
-
-	UsersColl = &mongo.Collection{}
 )
 
 func Initialize() {
@@ -28,13 +28,18 @@ func Initialize() {
 
 	Client, ClientErr = mongo.Connect(context.TODO(), opts)
 	if ClientErr != nil { // client Connection에서 에러가 발생하면
+		logger.Error(ClientErr)
 		panic(ClientErr)
 	}
 	logger.Info("MongoDB connected successfully!")
 
 	defineCollection()
+	ensureIndexes(context.TODO(), Client.Database(mongodbDatabase))
 }
 
 func defineCollection() {
-	UsersColl = Client.Database(mongodbDatabase).Collection("users")
+	database := Client.Database(mongodbDatabase)
+
+	usersColl.Define(*database)
+	loginsColl.Define(*database)
 }

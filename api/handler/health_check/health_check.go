@@ -14,9 +14,7 @@ type HealthCheckServer struct {
 func (*HealthCheckServer) Check(ctx context.Context, req *v1.CheckRequest) (*v1.CheckResponse, error) {
 	logger.Debug(req.Hi)
 
-	res := &v1.CheckResponse{
+	return &v1.CheckResponse{
 		Bye: "bye",
-	}
-
-	return res, nil
+	}, nil
 }

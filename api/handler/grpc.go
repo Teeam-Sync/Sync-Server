@@ -6,6 +6,7 @@ import (
 	"net"
 	"os"
 
+	"github.com/Teeam-Sync/Sync-Server/api/handler/auth"
 	"github.com/Teeam-Sync/Sync-Server/api/handler/health_check"
 	v1 "github.com/Teeam-Sync/Sync-Server/api/proto/v1"
 	"github.com/Teeam-Sync/Sync-Server/internal/logger"
@@ -32,6 +33,7 @@ func Initialize() error {
 
 	s := grpc.NewServer()
 	v1.RegisterHealthCheckServiceServer(s, &health_check.HealthCheckServer{})
+	v1.RegisterAuthServiceServer(s, &auth.AuthServer{})
 	reflection.Register(s)
 	logger.Debug("server listening at ", lis.Addr())
 
