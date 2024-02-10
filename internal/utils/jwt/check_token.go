@@ -22,6 +22,9 @@ func CheckToken(jwt_token string) (err error) {
 	if err != nil {
 		return converter.ErrUnverifiableTokenError
 	} 
+
+	uuid := claims.Uid
 	logger.Debug(token.Valid)
+	logger.Debug(uuid)
 	return nil 
 }
