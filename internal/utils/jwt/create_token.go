@@ -2,36 +2,25 @@ package utils_jwt
 
 import (
 	"os"
-	"time"
 
-	loginsColl "github.com/Teeam-Sync/Sync-Server/internal/database/mongodb/logins"
-	"github.com/golang-jwt/jwt"
-	"github.com/google/uuid"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 type AuthTokenClaims struct {
-	TokenUUID string `bson:"tid"`
-	Uid string `bson:"_id"`
-	Email string `bson:"email"`
-	jwt.StandardClaims
+	Uid string `json:"uid"`
+	jwt.RegisteredClaims
 }
 
-func CreateToken(loginUser loginsColl.LoginsSchema, find_err error) (authToken string, err error) {
-	at := AuthTokenClaims{
-		TokenUUID: uuid.NewString(),
-		Uid: loginUser.Uid.String(),
-		Email: loginUser.Email,
-		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(time.Hour*2).Unix(),
-		},
+func CreateToken(uid string) (authToken string, err error) {
+	claim := AuthTokenClaims{
+		Uid: uid,
 	}
 
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &at)
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &claim)
 	secretCode := os.Getenv("JWT_SECRET_KEY")
 	signedAuthToken, err := token.SignedString([]byte(secretCode))
 	if err != nil {
-		return "", err 
+		return "", err
 	}
-	return signedAuthToken, nil 
+	return signedAuthToken, nil
 }
-

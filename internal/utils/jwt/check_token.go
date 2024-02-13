@@ -5,7 +5,7 @@ import (
 
 	"github.com/Teeam-Sync/Sync-Server/api/converter"
 	"github.com/Teeam-Sync/Sync-Server/internal/logger"
-	"github.com/golang-jwt/jwt"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 func CheckToken(jwt_token string) (err error) {
@@ -21,10 +21,10 @@ func CheckToken(jwt_token string) (err error) {
 
 	if err != nil {
 		return converter.ErrUnverifiableTokenError
-	} 
+	}
 
 	uuid := claims.Uid
 	logger.Debug(token.Valid)
 	logger.Debug(uuid)
-	return nil 
+	return nil
 }
