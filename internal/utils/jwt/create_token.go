@@ -2,23 +2,19 @@ package utils_jwt
 
 import (
 	"os"
+	"time"
 
 	"github.com/golang-jwt/jwt/v5"
 )
 
-type AuthTokenClaims struct {
-	Uid string `json:"uid"`
-	jwt.RegisteredClaims
-}
+var secretKey = []byte(os.Getenv("JWT_SECRET_KEY"))
 
 func CreateToken(uid string) (authToken string, err error) {
-	claim := AuthTokenClaims{
-		Uid: uid,
-	}
-
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &claim)
-	secretCode := os.Getenv("JWT_SECRET_KEY")
-	signedAuthToken, err := token.SignedString([]byte(secretCode))
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"Uid": uid,
+		"exp": time.Now().Add(time.Hour*2).Unix(),
+	})
+	signedAuthToken, err := token.SignedString(secretKey)
 	if err != nil {
 		return "", err
 	}
