@@ -1,30 +1,25 @@
 package utils_jwt
 
 import (
-	"os"
-
 	"github.com/Teeam-Sync/Sync-Server/api/converter"
-	"github.com/Teeam-Sync/Sync-Server/internal/logger"
 	"github.com/golang-jwt/jwt/v5"
 )
 
-func CheckToken(jwt_token string) (err error) {
-	claims := AuthTokenClaims{}
-	key := func(jwt_token *jwt.Token) (interface{}, error) {
-		if _, ok := jwt_token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, converter.ErrUnexpectedSigningMethodError
-		}
-		return []byte(os.Getenv("JWT_SECRET_KEY")), nil
-	}
-
-	token, err := jwt.ParseWithClaims(jwt_token, &claims, key)
+func CheckToken(tokenString string) (uid string, err error) {
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		return secretKey, nil 
+	})
 
 	if err != nil {
-		return converter.ErrUnverifiableTokenError
+		return "", err 
 	}
 
-	uuid := claims.Uid
-	logger.Debug(token.Valid)
-	logger.Debug(uuid)
-	return nil
+	if !token.Valid {
+		return "", converter.ErrInvalidTokenError
+	}
+
+	claims := token.Claims.(jwt.MapClaims)
+	uid = claims["Uid"].(string)
+
+	return uid, nil
 }
