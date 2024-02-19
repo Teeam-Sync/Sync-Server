@@ -18,8 +18,10 @@ func CheckToken(tokenString string) (uid string, err error) {
 		return "", converter.ErrInvalidTokenError
 	}
 
-	claims := token.Claims.(jwt.MapClaims)
-	uid = claims["Uid"].(string)
+	uid, _ = token.Claims.GetSubject()
+
+	// claims := token.Claims.(jwt.MapClaims)
+	// uid = claims["Uid"].(string)
 
 	return uid, nil
 }
