@@ -3,8 +3,9 @@ package main
 import (
 	"log"
 
-	grpc_handler "github.com/Teeam-Sync/Sync-Server/api/handler"
-	database "github.com/Teeam-Sync/Sync-Server/internal/database/mongodb"
+	database "github.com/Teeam-Sync/Sync-Server/server/database/mongodb"
+	grpc_handler "github.com/Teeam-Sync/Sync-Server/server/grpc"
+	utils_kst "github.com/Teeam-Sync/Sync-Server/utils/kst"
 	"github.com/joho/godotenv"
 )
 
@@ -13,7 +14,7 @@ const (
 )
 
 func main() {
-	initialize()
+	mustInitialize()
 }
 
 func init() {
@@ -29,7 +30,8 @@ func init() {
 	}
 }
 
-func initialize() {
-	database.Initialize()
+func mustInitialize() {
+	utils_kst.MustLoadKST()
+	database.MustInitialize()
 	grpc_handler.Initialize()
 }
