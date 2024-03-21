@@ -3,11 +3,17 @@ syntax = "proto3";
 package proto.v1;
 option go_package = "github.com/Teeam-Sync/Sync-Server/api/proto/v1";
 
-import "proto/v1/common.proto";
+import "google/protobuf/empty.proto";
 
 service AuthService {
-  rpc SignUp(SignUpRequest) returns (SignUpResponse) {}
-  rpc SignIn(SignInRequest) returns (SignInResponse) {}
+  rpc SignUp(SignUpRequest) returns (SignUpResponse);
+  rpc SignIn(SignInRequest) returns (SignInResponse);
+  rpc RefreshToken(google.protobuf.Empty) returns (RefreshTokenResponse);
+}
+
+message Token {
+  string access_token = 1;
+  string refresh_token = 2;
 }
 
 // [SignUp] 회원가입 API 요청
@@ -19,7 +25,7 @@ message SignUpRequest {
 
 // [SignUp] 회원가입 API 응답
 message SignUpResponse {
-  Status status = 1;
+  Token token = 1;
 }
 
 // [SignIn] 로그인 API 요청
@@ -28,7 +34,12 @@ message SignInRequest {
   string password = 2;
 }
 
-// [SignIn] 로그인 API 요청 
+// [SignIn] 로그인 API 응답
 message SignInResponse {
-  Status status = 1;
+  Token token = 1;
+}
+
+// [RefreshToken] 토큰 재발급 API 응답
+message RefreshTokenResponse {
+  Token token = 1;
 }
