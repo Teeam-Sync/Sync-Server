@@ -6,6 +6,7 @@ import (
 
 	logger "github.com/Teeam-Sync/Sync-Server/logging"
 	loginsColl "github.com/Teeam-Sync/Sync-Server/server/database/mongodb/logins"
+	tokensColl "github.com/Teeam-Sync/Sync-Server/server/database/mongodb/tokens"
 	usersColl "github.com/Teeam-Sync/Sync-Server/server/database/mongodb/users"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -26,7 +27,7 @@ func MustInitialize() {
 	opts := options.Client().ApplyURI(mongodbURI).SetServerAPIOptions(serverAPI)
 
 	var err error
-	Client, err = mongo.Connect(context.TODO(), opts)
+	Client, err = mongo.Connect(context.Background(), opts)
 	if err != nil { // client Connection에서 에러가 발생하면
 		logger.Error(err)
 		panic(err)
@@ -42,4 +43,5 @@ func defineCollection() {
 
 	usersColl.Define(*database)
 	loginsColl.Define(*database)
+	tokensColl.Define(*database)
 }

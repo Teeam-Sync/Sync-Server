@@ -30,7 +30,7 @@ func Initialize() error {
 		return err
 	}
 
-	s := grpc.NewServer()
+	s := grpc.NewServer(grpc.UnaryInterceptor(authUnaryInterceptor))
 	v1.RegisterAuthServiceServer(s, &auth.AuthServer{})
 	reflection.Register(s)
 	logger.Info("server listening at ", lis.Addr())

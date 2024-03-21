@@ -1,4 +1,4 @@
-package converter
+package utils_errors
 
 import (
 	"fmt"
@@ -29,20 +29,32 @@ var (
 		ErrCode:  v1.StatusCode_REQUIREDFIELD_MISSING,
 		Msg:      "Required Field Missing",
 	}
-	// Invalid Metadata(JWT Token)
-	GrpcErrInvalidMetadata = &GrpcErr{
-		GrpcCode: codes.Unauthenticated,
-		ErrCode:  v1.StatusCode_INVALID_METADATA,
-		Msg:      "Invalid Metadata(JWT Token)",
-	}
-
-	/* 1xxxx - authService */
 	// Authentication Failed
 	GrpcErrUnauthenticated = &GrpcErr{
 		GrpcCode: codes.Unauthenticated,
 		ErrCode:  v1.StatusCode_UNAUTHENTICATED,
 		Msg:      "Authentication Failed",
 	}
+	// Invalid Metadata(JWT Token)
+	GrpcErrInvalidMetadata = &GrpcErr{
+		GrpcCode: codes.Unauthenticated,
+		ErrCode:  v1.StatusCode_INVALID_METADATA,
+		Msg:      "Invalid Metadata(JWT Token)",
+	}
+	// Expired Metadata(JWT Access Token)
+	GrpcErrExpiredAccessToken = &GrpcErr{
+		GrpcCode: codes.Unauthenticated,
+		ErrCode:  v1.StatusCode_EXPIRED_ACCESSTOKEN,
+		Msg:      "Access Token Expired",
+	}
+	// Expired Metadata(JWT Refresh Token)
+	GrpcErrExpiredRefreshToken = &GrpcErr{
+		GrpcCode: codes.Unauthenticated,
+		ErrCode:  v1.StatusCode_EXPIRED_REFRESHTOKEN,
+		Msg:      "Refresh Token Expired",
+	}
+
+	/* 1xxxx - authService */
 	// User Already Registered
 	GrpcErrUserAlreadyRegistered = &GrpcErr{GrpcCode: codes.Unavailable,
 		ErrCode: v1.StatusCode_USER_ALREADY_REGISTERED,
@@ -61,7 +73,7 @@ var (
 )
 
 func (g *GrpcErr) GetGrpcError(msg *string) (err error) {
-	if msg != nil { // 메세지가 nil로 넘어온다면, 기본 메세지 보내기
+	if msg == nil { // 메세지가 nil로 넘어온다면, 기본 메세지 보내기
 		msg = &g.Msg
 	}
 	err = status.Error(g.GrpcCode, fmt.Sprintf("[%d] %s", g.ErrCode, *msg))

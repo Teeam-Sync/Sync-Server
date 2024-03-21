@@ -8,7 +8,7 @@ import (
 
 var Kst *time.Location
 
-func MustLoadKST() *time.Location {
+func MustInitialize() *time.Location {
 	loc, err := time.LoadLocation("Asia/Seoul")
 	if err != nil {
 		logger.Error(err)

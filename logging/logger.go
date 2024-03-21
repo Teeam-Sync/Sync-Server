@@ -8,14 +8,18 @@ import (
 )
 
 var (
-	log   = mustInitialize()
-	Debug = log.Debugln
-	Info  = log.Infoln
-	Error = log.Errorln
+	logger *zap.Logger
+	log    *zap.SugaredLogger
+	Debug  func(args ...interface{})
+	Info   func(args ...interface{})
+	Error  func(args ...interface{})
 )
 
-func mustInitialize() *zap.SugaredLogger {
-	var logger *zap.Logger
+func init() {
+	mustInitialize()
+}
+
+func mustInitialize() {
 	var err error
 
 	env := os.Getenv("APP_ENV")
@@ -31,7 +35,10 @@ func mustInitialize() *zap.SugaredLogger {
 		panic(err)
 	}
 
-	return logger.Sugar()
+	log = logger.Sugar()
+	Debug = log.Debug
+	Info = log.Info
+	Error = log.Error
 }
 
 func newLogger(level zapcore.Level) (*zap.Logger, error) {

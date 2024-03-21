@@ -3,8 +3,8 @@ package loginsColl
 import (
 	"context"
 
-	"github.com/Teeam-Sync/Sync-Server/api/converter"
 	logger "github.com/Teeam-Sync/Sync-Server/logging"
+	utils_errors "github.com/Teeam-Sync/Sync-Server/utils/errors"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -14,11 +14,12 @@ import (
 func (r *MongoLoginRepository) FindLoginUserByEmail(email string) (loginUser LoginSchema, err error) {
 	filter := LoginSchema{Email: email}
 
-	err = r.collection.FindOne(context.TODO(), filter).Decode(&loginUser)
+	err = r.collection.FindOne(context.Background(), filter).Decode(&loginUser)
 	if err == mongo.ErrNoDocuments { // login Collection에서 User가 등록되어있지 않는 경우
-		return loginUser, converter.ErrUserNotRegistered
+		return loginUser, utils_errors.ErrUserNotRegistered
 	} else if err != nil { // unexpected error
-		return loginUser, converter.ErrMongoFindError
+		logger.Error(err)
+		return loginUser, utils_errors.ErrMongoFindError
 	}
 
 	return loginUser, nil
@@ -29,17 +30,17 @@ func (r *MongoLoginRepository) FindLoginUserByEmail(email string) (loginUser Log
 func (r *MongoLoginRepository) FindLoginUserByUid(uid string) (loginUser LoginSchema, err error) {
 	parsedUid, err := primitive.ObjectIDFromHex(uid)
 	if err != nil {
-		return loginUser, converter.ErrMongoInvalidObjectIDError
+		return loginUser, utils_errors.ErrMongoInvalidObjectIDError
 	}
 
 	filter := LoginSchema{Uid: parsedUid}
 
-	err = r.collection.FindOne(context.TODO(), filter).Decode(&loginUser)
+	err = r.collection.FindOne(context.Background(), filter).Decode(&loginUser)
 	if err == mongo.ErrNoDocuments { // login Collection에서 User가 등록되어있지 않는 경우
-		return loginUser, converter.ErrUserNotRegistered
+		return loginUser, utils_errors.ErrUserNotRegistered
 	} else if err != nil { // unexpected error
 		logger.Error(err)
-		return loginUser, converter.ErrMongoFindError
+		return loginUser, utils_errors.ErrMongoFindError
 	}
 
 	return loginUser, nil

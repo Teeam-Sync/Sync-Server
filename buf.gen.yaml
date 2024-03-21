@@ -2,8 +2,8 @@ version: v1
 plugins:
   - plugin: go
     out: api
-    opt: paths=source_relative
-  - name: go-grpc
-    out: api
     opt:
       - paths=source_relative
+  - name: go-grpc
+    out: api
+    opt: paths=source_relative

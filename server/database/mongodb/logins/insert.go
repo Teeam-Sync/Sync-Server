@@ -3,7 +3,8 @@ package loginsColl
 import (
 	"context"
 
-	"github.com/Teeam-Sync/Sync-Server/api/converter"
+	logger "github.com/Teeam-Sync/Sync-Server/logging"
+	utils_errors "github.com/Teeam-Sync/Sync-Server/utils/errors"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -12,9 +13,10 @@ import (
 func (r *MongoLoginRepository) InsertLoginUser(ctx context.Context, loginUser LoginSchema) (err error) {
 	_, err = r.collection.InsertOne(ctx, loginUser)
 	if mongo.IsDuplicateKeyError(err) { // 이미 등록된 이메일이 있을때...
-		return converter.ErrUserAlreadyRegistered
+		return utils_errors.ErrUserAlreadyRegistered
 	} else if err != nil { // unexpected error
-		return converter.ErrMongoInsertError
+		logger.Error(err)
+		return utils_errors.ErrMongoInsertError
 	}
 
 	return nil
