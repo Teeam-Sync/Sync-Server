@@ -27,7 +27,7 @@ func (r *MongoUserRepository) FindUserByEmail(email string) (user UserSchema, er
 
 // [users] Uid를 통해서 User를 가져오는 함수
 /* ErrMongoInvalidObjectIDError, ErrUserNotRegistered, ErrMongoFindError */
-func (r *MongoUserRepository) FindLoginUserByUid(uid string) (user UserSchema, err error) {
+func (r *MongoUserRepository) FindUserByUid(uid string) (user UserSchema, err error) {
 	parsedUid, err := primitive.ObjectIDFromHex(uid)
 	if err != nil {
 		return user, utils_errors.ErrMongoInvalidObjectIDError

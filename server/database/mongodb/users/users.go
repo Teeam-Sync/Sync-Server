@@ -12,7 +12,7 @@ import (
 
 type UserRepository interface {
 	FindUserByEmail(email string) (userColl UserSchema, err error)
-	FindLoginUserByUid(uid string) (user UserSchema, err error)
+	FindUserByUid(uid string) (user UserSchema, err error)
 	InsertUser(ctx context.Context, userColl UserSchema) (err error)
 }
 

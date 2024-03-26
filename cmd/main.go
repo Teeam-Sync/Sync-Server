@@ -41,7 +41,6 @@ func init() {
 }
 
 func mustInitialize() {
-	// logger.MustInitialize()
 	utils_kst.MustInitialize()
 	jwtService.MustInitialize()
 	database.MustInitialize()
